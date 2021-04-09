@@ -1,2 +1,4 @@
 /result
 /compile_commands.json
+/.idea/
+/cmake-build-debug/
