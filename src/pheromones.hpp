@@ -8,14 +8,17 @@ extern const unsigned short HEIGHT;
 
 const unsigned short decay = 1;
 
-class Pheromones {
+class Pheromones
+{
 public:
-  sf::VertexArray map = sf::VertexArray(sf::PrimitiveType::Points, WIDTH * HEIGHT);
+    sf::VertexArray map = sf::VertexArray(sf::PrimitiveType::Points, WIDTH * HEIGHT);
 
 public:
-  Pheromones();
+    Pheromones();
 
-  void update();
+    void place(unsigned short x, unsigned short y, sf::Color col);
+
+    void update();
 };
 
 #endif

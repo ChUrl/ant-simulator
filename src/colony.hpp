@@ -2,19 +2,17 @@
 #define __COLONY_H_
 
 #include <SFML/Graphics.hpp>
+#include "world_object.hpp"
 
-class Ant; // Colony and Ant can't include eachother so forward-declare
-
-class Colony {
-  double x, y;
-
-public:
-  sf::CircleShape appearance;
+class Colony : public WorldObject
+{
 
 public:
-  Colony(double x, double y);
+    Colony(double x, double y);
 
-  bool antIsHome(const Ant& ant) const;
+    void update() override;
+
+    sf::Color getPheromoneType() const override;
 };
 
 #endif // __COLONY_H_

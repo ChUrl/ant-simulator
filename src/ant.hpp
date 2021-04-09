@@ -2,51 +2,47 @@
 #define H_ANT
 
 #include <SFML/Graphics.hpp>
-#include <random>
+#include <string>
+#include <memory>
 
-#include "food.hpp"
-#include "colony.hpp"
+#include "world_object.hpp"
 #include "pheromones.hpp"
-
-extern const unsigned short WIDTH;
-extern const unsigned short HEIGHT;
+#include "colony.hpp"
+#include "food.hpp"
 
 const double speed = 1;
 const double determination = 25;             // straightness of the path, (0, 1]
-const unsigned short pheromone_home_interval = 10; // updates between pheromone-drops
-const unsigned short pheromone_food_interval = 5;
+const unsigned short pheromone_interval = 5; // updates between drops
 
 const unsigned short view_angle = 45; // angle degrees to each side
 const unsigned short view_distance = 25;
 
-class Ant {
-  double x, y;
-  double direction; // in radians
+class Ant : public WorldObject
+{
+    double direction; // in radians
 
-  Pheromones &pheromones;
-  const Colony &colony;
-
-  bool was_home = false; // TODO: Timer-based
-  bool has_food = false;
-  unsigned short next_pheromone_home_drop = 0;
-  unsigned short next_pheromone_food_drop = 0;
-
-  friend class Colony;
-  friend class Food;
+    Pheromones& pheromones;
+    unsigned short next_pheromone_drop = 0;
+    sf::Color pheromone_type = sf::Color::Transparent; // ANT, HOME, FOOD
 
 public:
-  sf::CircleShape appearance;
+    std::vector<std::shared_ptr<WorldObject>> umwelt;
 
 public:
-  Ant(Pheromones &pheromones, const Colony &colony, double x, double y);
-  Ant(Pheromones &pheromones, const Colony &colony, unsigned short direction);
-  Ant(Pheromones &pheromones, const Colony &colony);
-  void setAppearance();
+    Ant(Pheromones& pheromones, double x, double y);
+    Ant(Pheromones& pheromones, unsigned short direction);
+    explicit Ant(Pheromones& pheromones);
 
-  void update();
-  bool isOffScreen() const;
-  void dropHomePheromone(); // red
-  void dropFoodPheromone(); // green
+    void addToUmwelt(std::shared_ptr<WorldObject> object);
+
+    void update() override;
+    sf::Color getPheromoneType() const override;
+
+    void move();
+    void updateAppearance();
+    void updatePheromones();
+    void dropPheromone(); // red
+    void updateUmwelt();
 };
 
 #endif
