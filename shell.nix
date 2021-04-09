@@ -10,6 +10,7 @@ mkShell {
     cmake-format
     clang-tools
     # ccls
+    jetbrains.clion
   ];
   buildInputs = [
     sfml
