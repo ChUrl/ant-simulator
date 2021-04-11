@@ -4,6 +4,6 @@ Food::Food(double x, double y) : WorldObject(x, y, 15, sf::Color::Green) {}
 
 void Food::update() {}
 
-sf::Color Food::getPheromoneType() const {
-    return sf::Color::Green;
+PheroType Food::getPheromoneType() const {
+    return FOOD;
 }

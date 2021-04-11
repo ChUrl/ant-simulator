@@ -1,11 +1,15 @@
-#ifndef __OBJECT_H_
-#define __OBJECT_H_
+#ifndef __WORLD_OBJECT_H_
+#define __WORLD_OBJECT_H_
 
 #include <cmath>
 #include <SFML/Graphics.hpp>
 
 extern const unsigned short WIDTH;
 extern const unsigned short HEIGHT;
+
+enum PheroType {
+    FOOD, HOME, NONE
+};
 
 class WorldObject
 {
@@ -28,7 +32,7 @@ public:
     double angle(const WorldObject& other) const;
 
     virtual void update() = 0; // pure virtual: has to be overridden
-    virtual sf::Color getPheromoneType() const = 0;
+    virtual PheroType getPheromoneType() const = 0;
 };
 
 #endif // __OBJECT_H_

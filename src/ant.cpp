@@ -1,12 +1,12 @@
 #include "ant.hpp"
-#include "pheromones.hpp"
+#include "pheromone_map.hpp"
 #include <cmath>
 #include <iostream>
 #include <numbers>
 #include <random>
 
-Ant::Ant(Pheromones& pheromones, double x, double y)
-        : WorldObject(x, y, 2, sf::Color::Black), pheromones(pheromones) {
+Ant::Ant(PheromoneMap& pheromones, double x, double y)
+        : WorldObject(x, y, 3, sf::Color::Black), pheromones(pheromones) {
     std::random_device rd;  // obtain a random number from hardware
     std::mt19937 gen(rd()); // seed the generator
 
@@ -14,8 +14,8 @@ Ant::Ant(Pheromones& pheromones, double x, double y)
     direction = degree_distribution(gen);
 }
 
-Ant::Ant(Pheromones& pheromones, unsigned short direction)
-        : WorldObject(0, 0, 2, sf::Color::Black), direction(direction),
+Ant::Ant(PheromoneMap& pheromones, unsigned short direction)
+        : WorldObject(0, 0, 3, sf::Color::Black), direction(direction),
           pheromones(pheromones) {
     std::random_device device;        // obtain a random number from hardware
     std::mt19937 generator(device()); // seed the generator
@@ -29,8 +29,8 @@ Ant::Ant(Pheromones& pheromones, unsigned short direction)
     updateAppearance();
 }
 
-Ant::Ant(Pheromones& pheromones)
-        : WorldObject(0, 0, 2, sf::Color::Black), pheromones(pheromones) {
+Ant::Ant(PheromoneMap& pheromones)
+        : WorldObject(0, 0, 3, sf::Color::Black), pheromones(pheromones) {
     std::random_device device;        // obtain a random number from hardware
     std::mt19937 generator(device()); // seed the generator
 
@@ -46,7 +46,7 @@ Ant::Ant(Pheromones& pheromones)
     updateAppearance();
 }
 
-void Ant::addToUmwelt(std::shared_ptr<WorldObject> object) {
+void Ant::addToUmwelt(const std::shared_ptr<WorldObject>& object) {
     umwelt.push_back(object);
 }
 
@@ -69,11 +69,16 @@ void Ant::update() {
 }
 
 void Ant::move() {
-    // TODO: Leftoff, add ant-vision lol
-    for (int i = x; i < WIDTH * HEIGHT; ++i) {
-        if (true) {
+    PheroType attractor;
+    if (pheromone_type == HOME) {
+        attractor = FOOD;
+    } else if (pheromone_type == FOOD) {
+        attractor = HOME;
+    } else {
+        attractor = NONE;
+    }
+    for (const Pheromone& pheromone : pheromones.getInVision(*this, attractor, view_distance)) {
 
-        }
     }
 
     std::random_device device;        // obtain a random number from hardware
@@ -104,13 +109,13 @@ void Ant::updatePheromones() {
     next_pheromone_drop = std::max(0, next_pheromone_drop - 1);
 }
 
-sf::Color Ant::getPheromoneType() const {
-    return sf::Color::Transparent;
+PheroType Ant::getPheromoneType() const {
+    return NONE;
 }
 
 void Ant::dropPheromone() {
     if (isOffScreen()) {
-        std::cout << "Ant can't drop Pheromones offscreen!" << std::endl;
+        std::cout << "Ant can't drop PheromoneMap offscreen!" << std::endl;
         return;
     }
 

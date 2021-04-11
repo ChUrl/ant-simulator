@@ -5,21 +5,16 @@
 #include <SFML/Graphics.hpp>
 #include "pheromone.hpp"
 
-extern const unsigned short WIDTH;
-extern const unsigned short HEIGHT;
-
-const unsigned short decay = 1;
+class Ant;
 
 class PheromoneMap
 {
 public:
-    std::vector<Pheromone
+    std::vector<Pheromone> pheromones;
 
 public:
-    PheromoneMap();
-
-    void place(unsigned short x, unsigned short y, sf::Color col);
-    sf::Color get(unsigned short x, unsigned short y) const;
+    void place(double x, double y, PheroType type);
+    std::vector<Pheromone> getInVision(const Ant& ant, PheroType type, unsigned short radius);
 
     void update();
 };

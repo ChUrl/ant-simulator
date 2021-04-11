@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "world_object.hpp"
-#include "pheromones.hpp"
+#include "pheromone_map.hpp"
 #include "colony.hpp"
 #include "food.hpp"
 
@@ -21,22 +21,22 @@ class Ant : public WorldObject
 {
     double direction; // in radians
 
-    Pheromones& pheromones;
+    PheromoneMap& pheromones;
     unsigned short next_pheromone_drop = 0;
-    sf::Color pheromone_type = sf::Color::Transparent; // ANT, HOME, FOOD
+    PheroType pheromone_type = NONE; // FOOD, HOME, NONE
 
 public:
     std::vector<std::shared_ptr<WorldObject>> umwelt;
 
 public:
-    Ant(Pheromones& pheromones, double x, double y);
-    Ant(Pheromones& pheromones, unsigned short direction);
-    explicit Ant(Pheromones& pheromones);
+    Ant(PheromoneMap& pheromones, double x, double y);
+    Ant(PheromoneMap& pheromones, unsigned short direction);
+    explicit Ant(PheromoneMap& pheromones);
 
-    void addToUmwelt(std::shared_ptr<WorldObject> object);
+    void addToUmwelt(const std::shared_ptr<WorldObject>& object);
 
     void update() override;
-    sf::Color getPheromoneType() const override;
+    PheroType getPheromoneType() const override;
 
     void move();
     void updateAppearance();

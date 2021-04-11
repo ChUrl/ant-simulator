@@ -12,7 +12,7 @@ public:
 
     void update() override;
 
-    sf::Color getPheromoneType() const override;
+    PheroType getPheromoneType() const override;
 };
 
 #endif // __FOOD_H_
