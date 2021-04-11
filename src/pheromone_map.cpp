@@ -1,9 +1,9 @@
-#include "pheromones.hpp"
+#include "pheromone_map.hpp"
 
 extern const unsigned short WIDTH;
 extern const unsigned short HEIGHT;
 
-Pheromones::Pheromones() {
+PheromoneMap::PheromoneMap() {
     for (unsigned short y = 0; y < HEIGHT; ++y) {
         for (unsigned short x = 0; x < WIDTH; ++x) {
             map[y * WIDTH + x].position.x = x;
@@ -13,15 +13,22 @@ Pheromones::Pheromones() {
     }
 }
 
-void Pheromones::place(unsigned short x, unsigned short y, sf::Color col) {
+void PheromoneMap::place(unsigned short x, unsigned short y, sf::Color col) {
     map[y * WIDTH + x].color = col;
-    map[(y + 1) * WIDTH + x].color = col;
-    map[(y - 1) * WIDTH + x].color = col;
-    map[y * WIDTH + (x + 1)].color = col;
-    map[y * WIDTH + (x - 1)].color = col;
+
+    // Have to check for off-limit-pixels
+    map[std::min(WIDTH * HEIGHT - 1, (y + 1) * WIDTH + x)].color = col;
+    map[std::max(0, (y - 1) * WIDTH + x)].color = col;
+    map[std::min(WIDTH * HEIGHT - 1, y * WIDTH + (x + 1))].color = col;
+    map[std::max(0, y * WIDTH + (x - 1))].color = col;
 }
 
-void Pheromones::update() {
+sf::Color PheromoneMap::get(unsigned short x, unsigned short y) const {
+    // TODO: range-checks
+    return map[y * WIDTH + x].color;
+}
+
+void PheromoneMap::update() {
     for (int i = 0; i < WIDTH * HEIGHT; ++i) {
         map[i].color -= sf::Color(decay, decay, decay, decay);
     }
