@@ -48,7 +48,7 @@ message("DEBUG-Flags: ${CMAKE_CXX_FLAGS_DEBUG}")
 message("RELEASE-Flags: ${CMAKE_CXX_FLAGS_RELEASE}")
 
 # Executables
-file(GLOB source_files "${PROJECT_SOURCE_DIR}/src/*.cpp")
+file(GLOB source_files "${PROJECT_SOURCE_DIR}/src/*")
 add_executable(${PROJECT_NAME} ${source_files})
 
 # Libraries
