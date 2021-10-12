@@ -2,3 +2,5 @@
 /compile_commands.json
 /.idea/
 /cmake-build-debug/
+/.cache/
+/out/
