@@ -1,11 +1,10 @@
 #ifndef __FOOD_H_
 #define __FOOD_H_
 
-#include <SFML/Graphics.hpp>
 #include "world_object.hpp"
+#include <SFML/Graphics.hpp>
 
-class Food : public WorldObject
-{
+class Food : public WorldObject {
 
 public:
     Food(double x, double y);
@@ -15,4 +14,4 @@ public:
     PheroType getPheromoneType() const override;
 };
 
-#endif // __FOOD_H_
+#endif  // __FOOD_H_

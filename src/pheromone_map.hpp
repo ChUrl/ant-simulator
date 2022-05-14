@@ -1,14 +1,13 @@
 #ifndef __PHEROMONES_H_
 #define __PHEROMONES_H_
 
-#include <vector>
-#include <SFML/Graphics.hpp>
 #include "pheromone.hpp"
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 class Ant;
 
-class PheromoneMap
-{
+class PheromoneMap {
 public:
     std::vector<Pheromone> pheromones;
 

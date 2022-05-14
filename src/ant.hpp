@@ -1,29 +1,28 @@
 #ifndef H_ANT
 #define H_ANT
 
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <memory>
 
-#include "world_object.hpp"
-#include "pheromone_map.hpp"
 #include "colony.hpp"
 #include "food.hpp"
+#include "pheromone_map.hpp"
+#include "world_object.hpp"
 
 const double speed = 1;
-const double determination = 25;             // straightness of the path, (0, 1]
-const unsigned short pheromone_interval = 5; // updates between drops
+const double determination = 25;              // straightness of the path, (0, 1]
+const unsigned short pheromone_interval = 5;  // updates between drops
 
-const unsigned short view_angle = 45; // angle degrees to each side
+const unsigned short view_angle = 45;  // angle degrees to each side
 const unsigned short view_distance = 25;
 
-class Ant : public WorldObject
-{
-    double direction; // in radians
+class Ant : public WorldObject {
+    double direction;  // in radians
 
     PheromoneMap& pheromones;
     unsigned short next_pheromone_drop = 0;
-    PheroType pheromone_type = NONE; // FOOD, HOME, NONE
+    PheroType pheromone_type = NONE;  // FOOD, HOME, NONE
 
 public:
     std::vector<std::shared_ptr<WorldObject>> umwelt;
@@ -41,7 +40,7 @@ public:
     void move();
     void updateAppearance();
     void updatePheromones();
-    void dropPheromone(); // red
+    void dropPheromone();  // red
     void updateUmwelt();
 };
 

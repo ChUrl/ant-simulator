@@ -1,7 +1,7 @@
 #include "world_object.hpp"
 
 WorldObject::WorldObject(double x, double y, unsigned short radius, sf::Color color)
-        : x(x), y(y), radius(radius) {
+  : x(x), y(y), radius(radius) {
     appearance = sf::CircleShape(radius);
     appearance.setFillColor(color);
     appearance.setPosition(x, y);

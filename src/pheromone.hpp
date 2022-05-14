@@ -5,13 +5,12 @@
 #ifndef ANTSIMULATOR_PHEROMONE_HPP
 #define ANTSIMULATOR_PHEROMONE_HPP
 
-#include <SFML/Graphics.hpp>
 #include "world_object.hpp"
+#include <SFML/Graphics.hpp>
 
 const unsigned short decay = 1;
 
-class Pheromone : public WorldObject
-{
+class Pheromone : public WorldObject {
 public:
     unsigned short intensity = 255;
 
@@ -22,4 +21,4 @@ public:
     void update() override;
 };
 
-#endif //ANTSIMULATOR_PHEROMONE_HPP
+#endif  //ANTSIMULATOR_PHEROMONE_HPP

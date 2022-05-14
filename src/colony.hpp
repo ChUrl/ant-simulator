@@ -1,11 +1,10 @@
 #ifndef __COLONY_H_
 #define __COLONY_H_
 
-#include <SFML/Graphics.hpp>
 #include "world_object.hpp"
+#include <SFML/Graphics.hpp>
 
-class Colony : public WorldObject
-{
+class Colony : public WorldObject {
 
 public:
     Colony(double x, double y);
@@ -15,4 +14,4 @@ public:
     PheroType getPheromoneType() const override;
 };
 
-#endif // __COLONY_H_
+#endif  // __COLONY_H_

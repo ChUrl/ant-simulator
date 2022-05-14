@@ -2,12 +2,12 @@
 // Created by christoph on 11.04.21.
 //
 
-#include <SFML/Graphics.hpp>
-#include "world_object.hpp"
 #include "pheromone.hpp"
+#include "world_object.hpp"
+#include <SFML/Graphics.hpp>
 
 Pheromone::Pheromone(double x, double y, PheroType type)
-        : WorldObject(x, y, 2, sf::Color::Transparent) {
+  : WorldObject(x, y, 2, sf::Color::Transparent) {
     if (type == HOME) {
         appearance.setFillColor(sf::Color::Red);
     } else if (type == FOOD) {
@@ -30,10 +30,8 @@ PheroType Pheromone::getPheromoneType() const {
 void Pheromone::update() {
     intensity = std::max(0, intensity - decay);
     appearance.setFillColor(sf::Color(
-            appearance.getFillColor().r,
-            appearance.getFillColor().g,
-            appearance.getFillColor().b,
-            intensity
-    ));
+      appearance.getFillColor().r,
+      appearance.getFillColor().g,
+      appearance.getFillColor().b,
+      intensity));
 }
-

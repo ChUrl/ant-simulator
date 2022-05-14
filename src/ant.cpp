@@ -6,19 +6,19 @@
 #include <random>
 
 Ant::Ant(PheromoneMap& pheromones, double x, double y)
-        : WorldObject(x, y, 3, sf::Color::Black), pheromones(pheromones) {
-    std::random_device rd;  // obtain a random number from hardware
-    std::mt19937 gen(rd()); // seed the generator
+  : WorldObject(x, y, 3, sf::Color::Black), pheromones(pheromones) {
+    std::random_device rd;   // obtain a random number from hardware
+    std::mt19937 gen(rd());  // seed the generator
 
     std::uniform_real_distribution<> degree_distribution(0, 2 * std::numbers::pi);
     direction = degree_distribution(gen);
 }
 
 Ant::Ant(PheromoneMap& pheromones, unsigned short direction)
-        : WorldObject(0, 0, 3, sf::Color::Black), direction(direction),
-          pheromones(pheromones) {
-    std::random_device device;        // obtain a random number from hardware
-    std::mt19937 generator(device()); // seed the generator
+  : WorldObject(0, 0, 3, sf::Color::Black), direction(direction),
+    pheromones(pheromones) {
+    std::random_device device;         // obtain a random number from hardware
+    std::mt19937 generator(device());  // seed the generator
 
     std::uniform_int_distribution<> width_distribution(0, WIDTH);
     x = width_distribution(generator);
@@ -30,9 +30,9 @@ Ant::Ant(PheromoneMap& pheromones, unsigned short direction)
 }
 
 Ant::Ant(PheromoneMap& pheromones)
-        : WorldObject(0, 0, 3, sf::Color::Black), pheromones(pheromones) {
-    std::random_device device;        // obtain a random number from hardware
-    std::mt19937 generator(device()); // seed the generator
+  : WorldObject(0, 0, 3, sf::Color::Black), pheromones(pheromones) {
+    std::random_device device;         // obtain a random number from hardware
+    std::mt19937 generator(device());  // seed the generator
 
     std::uniform_int_distribution<> width_distribution(0, WIDTH);
     x = width_distribution(generator);
@@ -78,11 +78,10 @@ void Ant::move() {
         attractor = NONE;
     }
     for (const Pheromone& pheromone : pheromones.getInVision(*this, attractor, view_distance)) {
-
     }
 
-    std::random_device device;        // obtain a random number from hardware
-    std::mt19937 generator(device()); // seed the generator
+    std::random_device device;         // obtain a random number from hardware
+    std::mt19937 generator(device());  // seed the generator
 
     // Move
     std::uniform_real_distribution<> degree_distribution(-std::numbers::pi,
@@ -123,7 +122,7 @@ void Ant::dropPheromone() {
 }
 
 void Ant::updateUmwelt() {
-    for (std::shared_ptr<WorldObject> const& obj: umwelt) {
+    for (std::shared_ptr<WorldObject> const& obj : umwelt) {
         if (obj->collides(*this)) {
             pheromone_type = obj->getPheromoneType();
         }
