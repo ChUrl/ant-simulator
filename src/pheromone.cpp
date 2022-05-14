@@ -3,8 +3,6 @@
 //
 
 #include "pheromone.hpp"
-#include "world_object.hpp"
-#include <SFML/Graphics.hpp>
 
 Pheromone::Pheromone(double x, double y, PheroType type)
   : WorldObject(x, y, 2, sf::Color::Transparent) {
@@ -28,7 +26,7 @@ PheroType Pheromone::getPheromoneType() const {
 }
 
 void Pheromone::update() {
-    intensity = std::max(0, intensity - decay);
+    intensity = std::max(0U, intensity - decay);
     appearance.setFillColor(sf::Color(
       appearance.getFillColor().r,
       appearance.getFillColor().g,

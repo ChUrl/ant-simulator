@@ -8,13 +8,14 @@
 #include "world_object.hpp"
 #include <SFML/Graphics.hpp>
 
-const unsigned short decay = 1;
+// TODO: Use percentage
+const unsigned int decay = 1;
 
 class Pheromone : public WorldObject {
 public:
-    unsigned short intensity = 255;
+    // TODO: Use 1.0 to 0.0 double
+    unsigned int intensity = 255;
 
-public:
     Pheromone(double x, double y, PheroType type);
 
     PheroType getPheromoneType() const override;

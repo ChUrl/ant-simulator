@@ -1,10 +1,6 @@
 #include "ant.hpp"
-#include "pheromone_map.hpp"
-#include <cmath>
-#include <iostream>
-#include <numbers>
-#include <random>
 
+// TODO: Should every ant have its own random generators? Why not initialize with coordinates and put the random numbers in there (from main)
 Ant::Ant(PheromoneMap& pheromones, double x, double y)
   : WorldObject(x, y, 3, sf::Color::Black), pheromones(pheromones) {
     std::random_device rd;   // obtain a random number from hardware
@@ -14,7 +10,7 @@ Ant::Ant(PheromoneMap& pheromones, double x, double y)
     direction = degree_distribution(gen);
 }
 
-Ant::Ant(PheromoneMap& pheromones, unsigned short direction)
+Ant::Ant(PheromoneMap& pheromones, unsigned int direction)
   : WorldObject(0, 0, 3, sf::Color::Black), direction(direction),
     pheromones(pheromones) {
     std::random_device device;         // obtain a random number from hardware
@@ -46,6 +42,7 @@ Ant::Ant(PheromoneMap& pheromones)
     updateAppearance();
 }
 
+// TODO: Unnecessary, only used for food/base
 void Ant::addToUmwelt(const std::shared_ptr<WorldObject>& object) {
     umwelt.push_back(object);
 }
@@ -78,8 +75,10 @@ void Ant::move() {
         attractor = NONE;
     }
     for (const Pheromone& pheromone : pheromones.getInVision(*this, attractor, view_distance)) {
+        // TODO: What is this supposed to do?
     }
 
+    // TODO: Should this random generator be created on every move?
     std::random_device device;         // obtain a random number from hardware
     std::mt19937 generator(device());  // seed the generator
 
@@ -87,7 +86,8 @@ void Ant::move() {
     std::uniform_real_distribution<> degree_distribution(-std::numbers::pi,
                                                          std::numbers::pi);
 
-    direction += degree_distribution(generator) * (1 / determination);
+    direction += degree_distribution(generator) * (1 / determination);  // Normalize with determination to smooth movement
+    // TODO: Use modulo
     if (direction > 2 * std::numbers::pi) {
         direction -= 2 * std::numbers::pi;
     }
@@ -105,7 +105,7 @@ void Ant::updatePheromones() {
         dropPheromone();
         next_pheromone_drop = pheromone_interval + 1;
     }
-    next_pheromone_drop = std::max(0, next_pheromone_drop - 1);
+    next_pheromone_drop = std::max(0U, next_pheromone_drop - 1);
 }
 
 PheroType Ant::getPheromoneType() const {
@@ -121,6 +121,7 @@ void Ant::dropPheromone() {
     pheromones.place(x, y, pheromone_type);
 }
 
+// TODO: This is weird
 void Ant::updateUmwelt() {
     for (std::shared_ptr<WorldObject> const& obj : umwelt) {
         if (obj->collides(*this)) {

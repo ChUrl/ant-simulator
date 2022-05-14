@@ -10,7 +10,6 @@ public:
     Food(double x, double y);
 
     void update() override;
-
     PheroType getPheromoneType() const override;
 };
 

@@ -11,11 +11,11 @@
 #include "pheromone.hpp"
 #include "pheromone_map.hpp"
 
-const unsigned short HEIGHT = 500;
-const unsigned short WIDTH = 500;
-const unsigned short FPS = 60;
+const unsigned int HEIGHT = 500;
+const unsigned int WIDTH = 500;
+const unsigned int FPS = 60;
 
-const unsigned short ANTCOUNT = 100;
+const unsigned int ANTCOUNT = 100;
 
 int main(int argc, char* argv[]) {
     sf::ContextSettings settings;
@@ -24,8 +24,8 @@ int main(int argc, char* argv[]) {
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Ants", sf::Style::Close, settings);
     window.setFramerateLimit(FPS);  // Limit FPS
 
-    float t = 0.0;         // Verstrichene Zeit in ms
-    float dt = 1.0 / FPS;  // Schrittweite in ms
+    double t = 0.0;         // Verstrichene Zeit in ms
+    double dt = 1.0 / FPS;  // Schrittweite in ms
 
     PheromoneMap pheromones;
     std::vector<std::unique_ptr<Ant>> ants;  // Use pointer bc we can't instatiate abstract classes
@@ -42,8 +42,9 @@ int main(int argc, char* argv[]) {
         ant->addToUmwelt(foodA);
     }
 
-    // Main event loop
     while (window.isOpen()) {
+        // Main event loop
+
         sf::Event event {};
 
         while (window.pollEvent(event)) {

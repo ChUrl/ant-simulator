@@ -1,6 +1,4 @@
 #include "pheromone_map.hpp"
-#include "ant.hpp"
-#include <iostream>
 
 void PheromoneMap::place(double x, double y, PheroType type) {
     pheromones.emplace_back(x, y, type);
