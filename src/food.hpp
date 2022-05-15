@@ -9,6 +9,7 @@ public:
     Food(double x, double y);
 
     void update() override;
+    bool has_pheromones() override { return true; }
 };
 
 #endif  // __FOOD_H_

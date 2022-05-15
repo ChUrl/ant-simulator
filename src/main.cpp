@@ -9,7 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-int main(int argc, char* argv[]) {
+int main() {
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
@@ -26,7 +26,8 @@ int main(int argc, char* argv[]) {
     std::shared_ptr<Colony> colony = std::make_shared<Colony>(WIDTH / 2, HEIGHT / 2);
     std::shared_ptr<Food> foodA = std::make_shared<Food>(50, 50);
 
-    for (int i = 0; i < ANTCOUNT; ++i) {
+    // Init ants
+    for (auto i = 0U; i < ANTCOUNT; ++i) {
         ants.push_back(std::make_unique<Ant>(pheromones));
     }
     for (std::unique_ptr<Ant> const& ant : ants) {
@@ -54,7 +55,7 @@ int main(int argc, char* argv[]) {
 
         // Render
         window.clear(sf::Color::White);
-        pheromones.draw();
+        window.draw(pheromones.vertex_array());
         for (std::unique_ptr<Ant> const& obj : ants) {
             window.draw(obj->appearance);
         }

@@ -9,6 +9,7 @@ public:
     Colony(double x, double y);
 
     void update() override;
+    bool has_pheromones() override { return false; }
 };
 
 #endif  // __COLONY_H_

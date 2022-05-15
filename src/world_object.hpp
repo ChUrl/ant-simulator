@@ -21,6 +21,7 @@ public:
     double angle(const WorldObject& other) const;
 
     virtual void update() = 0;  // pure virtual: has to be overridden
+    virtual bool has_pheromones() = 0;
 };
 
 #endif  // __OBJECT_H_

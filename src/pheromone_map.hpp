@@ -3,14 +3,15 @@
 
 #include "main.hpp"
 #include <array>
+#include <SFML/Graphics.hpp>
 
 class PheromoneMap {
 public:
     std::array<std::array<double, HEIGHT>, WIDTH> pheromones;
 
-    void place(double x, double y);
+    void place(unsigned int x, unsigned int y);
     void update();
-    void draw();
+    sf::VertexArray vertex_array() const;
 };
 
 #endif

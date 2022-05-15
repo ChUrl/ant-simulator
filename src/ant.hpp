@@ -6,13 +6,12 @@
 #include "main.hpp"
 #include "pheromone_map.hpp"
 #include "world_object.hpp"
-#include <cmath>
 #include <iostream>
 #include <memory>
-#include <numbers>
 #include <random>
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <tuple>
 
 constexpr unsigned int speed = 1;
 
@@ -26,31 +25,30 @@ typedef enum {
     WEST
 } direction;
 
+std::tuple<int, int> direction_to_offset(direction dir);
+
 class Ant : public WorldObject {
 private:
-    // TODO: Switch direction to only N, E, S, W
-    direction dir;  // in radians
+    direction dir;
+    bool has_food = false;
 
     // TODO: Should this be here or just global?
     PheromoneMap& pheromones;
 
-    // TODO: Leave continuous trail and remove this
-    unsigned int next_pheromone_drop = 0;
-
 public:
-    // Contains the WorldObjects (other ants, base, food)
-    // TODO: Is this even needed?
+    // Contains the WorldObjects (other ants?, base, food)
+    // TODO: Replace this with direct refereces to base/food
     std::vector<std::shared_ptr<WorldObject>> umwelt;
 
-    Ant(PheromoneMap& pheromones, double x, double y);      // Just random direction
-    Ant(PheromoneMap& pheromones, unsigned int direction);  // Just random position
-    explicit Ant(PheromoneMap& pheromones);                 // All random
+    Ant(PheromoneMap& pheromones);
 
     void addToUmwelt(const std::shared_ptr<WorldObject>& object);
     void update() override;
     void move();
+    void move_to_base();
     void updateAppearance();
     void dropPheromone();  // red
+    bool has_pheromones() override { return false; }
 };
 
 #endif
