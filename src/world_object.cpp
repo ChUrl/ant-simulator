@@ -1,6 +1,6 @@
 #include "world_object.hpp"
 
-WorldObject::WorldObject(double x, double y, unsigned int radius, sf::Color color)
+WorldObject::WorldObject(unsigned int x, unsigned int y, unsigned int radius, sf::Color color)
   : x(x), y(y), radius(radius) {
     appearance = sf::CircleShape(radius);
     appearance.setFillColor(color);
@@ -17,12 +17,13 @@ bool WorldObject::collides(const WorldObject& other) const {
 }
 
 double WorldObject::distance(const WorldObject& other) const {
-    const double dx = std::abs(x - other.x);
-    const double dy = std::abs(y - other.y);
+    // No need to use abs here as it gets converted to int
+    const int dx = x - other.x;
+    const int dy = y - other.y;
     return std::sqrt(dx * dx + dy * dy);
 }
 
 double WorldObject::angle(const WorldObject& other) const {
-    const double dy = std::abs(y - other.y);
+    const int dy = y - other.y;
     return std::asin(dy / distance(other));
 }

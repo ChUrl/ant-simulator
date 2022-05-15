@@ -1,25 +1,19 @@
 #include "pheromone_map.hpp"
 
-void PheromoneMap::place(double x, double y, PheroType type) {
-    pheromones.emplace_back(x, y, type);
+void PheromoneMap::place(double x, double y) {
+    pheromones[x][y] = 1.0;
 }
 
-std::vector<Pheromone> PheromoneMap::getInVision(const Ant& ant, PheroType type, unsigned short radius) {
-    std::vector<Pheromone> umwelt;
-
-    for (const Pheromone& pheromone : pheromones) {
-        if (pheromone.getPheromoneType() == type && pheromone.distance(ant) <= radius) {
-            umwelt.push_back(pheromone);
-        }
-    }
-
-    return umwelt;
-}
-
+// Decays the pheromone intensity
 void PheromoneMap::update() {
-    for (size_t i = 0; i < pheromones.size(); ++i) {
-        if (pheromones[i].appearance.getFillColor().a == 0) {
-            //            pheromones.erase(pheromones.begin() + i);
+    for (auto x = 0; x < WIDTH; ++x) {
+        for (auto y = 0; y < HEIGHT; ++y) {
+            // TODO: Use defined pheromone decay rate instead of magic 0.01
+            pheromones[x][y] = std::max(0.0, pheromones[x][y] - 0.01);
         }
     }
+}
+
+void PheromoneMap::draw() {
+    // TODO: This should convert the 2d pheromone map to a sfml VertexArray to be drawn to the window (below the ants/base/food)
 }

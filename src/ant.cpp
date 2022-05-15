@@ -42,7 +42,6 @@ Ant::Ant(PheromoneMap& pheromones)
     updateAppearance();
 }
 
-// TODO: Unnecessary, only used for food/base
 void Ant::addToUmwelt(const std::shared_ptr<WorldObject>& object) {
     umwelt.push_back(object);
 }
@@ -61,33 +60,17 @@ void Ant::update() {
     }
 
     updateAppearance();
-    updatePheromones();
-    updateUmwelt();
 }
 
 void Ant::move() {
-    PheroType attractor;
-    if (pheromone_type == HOME) {
-        attractor = FOOD;
-    } else if (pheromone_type == FOOD) {
-        attractor = HOME;
-    } else {
-        attractor = NONE;
-    }
-    for (const Pheromone& pheromone : pheromones.getInVision(*this, attractor, view_distance)) {
-        // TODO: What is this supposed to do?
-    }
-
     // TODO: Should this random generator be created on every move?
     std::random_device device;         // obtain a random number from hardware
     std::mt19937 generator(device());  // seed the generator
 
     // Move
-    std::uniform_real_distribution<> degree_distribution(-std::numbers::pi,
-                                                         std::numbers::pi);
+    std::uniform_real_distribution<> degree_distribution(-std::numbers::pi, std::numbers::pi);
 
-    direction += degree_distribution(generator) * (1 / determination);  // Normalize with determination to smooth movement
-    // TODO: Use modulo
+    direction += degree_distribution(generator) * (1.0 / determination);  // Normalize with determination to smooth movement
     if (direction > 2 * std::numbers::pi) {
         direction -= 2 * std::numbers::pi;
     }
@@ -100,32 +83,11 @@ void Ant::updateAppearance() {
     appearance.setPosition(x, y);
 }
 
-void Ant::updatePheromones() {
-    if (next_pheromone_drop == 0) {
-        dropPheromone();
-        next_pheromone_drop = pheromone_interval + 1;
-    }
-    next_pheromone_drop = std::max(0U, next_pheromone_drop - 1);
-}
-
-PheroType Ant::getPheromoneType() const {
-    return NONE;
-}
-
 void Ant::dropPheromone() {
     if (isOffScreen()) {
         std::cout << "Ant can't drop PheromoneMap offscreen!" << std::endl;
         return;
     }
 
-    pheromones.place(x, y, pheromone_type);
-}
-
-// TODO: This is weird
-void Ant::updateUmwelt() {
-    for (std::shared_ptr<WorldObject> const& obj : umwelt) {
-        if (obj->collides(*this)) {
-            pheromone_type = obj->getPheromoneType();
-        }
-    }
+    pheromones.place(x, y);
 }

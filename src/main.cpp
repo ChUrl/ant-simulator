@@ -1,21 +1,13 @@
-#include <cmath>
-#include <iostream>
-#include <memory>
-#include <vector>
-
-#include <SFML/Graphics.hpp>
-
+#include "main.hpp"
 #include "ant.hpp"
 #include "colony.hpp"
 #include "food.hpp"
-#include "pheromone.hpp"
 #include "pheromone_map.hpp"
-
-const unsigned int HEIGHT = 500;
-const unsigned int WIDTH = 500;
-const unsigned int FPS = 60;
-
-const unsigned int ANTCOUNT = 100;
+#include <cmath>
+#include <iostream>
+#include <memory>
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 int main(int argc, char* argv[]) {
     sf::ContextSettings settings;
@@ -59,15 +51,10 @@ int main(int argc, char* argv[]) {
         for (std::unique_ptr<Ant> const& obj : ants) {
             obj->update();
         }
-        for (Pheromone& pheromone : pheromones.pheromones) {
-            pheromone.update();
-        }
 
         // Render
         window.clear(sf::Color::White);
-        for (Pheromone& pheromone : pheromones.pheromones) {
-            window.draw(pheromone.appearance);
-        }
+        pheromones.draw();
         for (std::unique_ptr<Ant> const& obj : ants) {
             window.draw(obj->appearance);
         }
